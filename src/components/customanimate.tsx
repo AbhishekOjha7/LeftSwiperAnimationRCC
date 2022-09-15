@@ -20,7 +20,9 @@ const Pan = (props: any) => {
       onPanResponderGrant: e => {
         console.log('grant', e.nativeEvent.locationX);
         pan.setOffset({
+          // @ts-ignore
           x: pan.x._value,
+          // @ts-ignore
           y: pan.y._value,
         });
       },
