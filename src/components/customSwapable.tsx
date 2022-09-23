@@ -1,85 +1,79 @@
+/**
+ * we have to install (yarn add react-native-gesture-handler)
+ * GestureHandleRootView for in android swipeable
+ * @props (renderCard) is used for UI design
+ * @props (handleRight) is used for doing crude operation in right
+ * @props (leftimage) is used for to change left icon
+ * @props (rightimg) is used for to change right icon
+ * @props (left) is used for handle left swipe
+ * @props (right) is used for handle right swipe
+ * @props (rightSwipestyle) is override styling in right side
+ * @props (leftSwipestyle) is override styling in left swipe
+ *
+ */
+
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
-  Dimensions,
-  Animated,
   TouchableOpacity,
   Image,
+  StyleProp,
+  ViewProps,
+  Animated,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {COLOR} from '../utils/colors';
 import {normalize} from '../utils/dimensions';
-import {images} from '../utils/images';
+import RenderCard from './renderCard';
+interface Props {
+  overshootRight?: boolean;
+  overshootLeft?: boolean;
+  leftSwipeStyle?: StyleProp<ViewProps>;
+  rightSwipeStyle?: StyleProp<ViewProps>;
+  handleRight?: any;
+  right?: boolean;
+  left?: boolean;
+  leftimage?: any;
+  rightimg?: any;
+  data?: any;
+  ref?: any;
+  indexCard?: number | undefined;
+  defaultIndex?: number | undefined;
+}
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
-const CustomSwapable = (props: any) => {
+const CustomSwapable = (props: Props) => {
+  const {leftimage, right, left, rightimg, indexCard, defaultIndex} = props;
   const ref: any = useRef();
-  const anim = useRef(new Animated.Value(0)).current;
-
-  // const animationFunction = val => {
-  //   Animated.timing(anim, {
-  //     toValue: val,
-  //     duration: 1000,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
 
   //============>>>>>>LEFT SWIPER HANDLER<<<<<<<<<<<===================
   const leftSwipe = (progress: any, dragX: any) => {
-    console.log('progress', progress);
-
-    // const scale = dragX.interpolate({
-    //   inputRange: [0, 100],
-    //   outputRange: [0, 1],
-    //   // extrapolate: 'clamp',
-    // });
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [1, 0],
+    });
     return (
-      <TouchableOpacity onPress={props.handleDelete} activeOpacity={0.6}>
-        <View style={styles.deleteBox}>
-          <Animated.Image source={images.delete} style={styles.deleteicon} />
-        </View>
+      <TouchableOpacity onPress={props.handleRight} activeOpacity={0.6}>
+        <Animated.View
+          style={[
+            styles.deleteBox,
+            props.leftSwipeStyle,
+            {transform: [{scale: scale}]},
+          ]}>
+          <Image source={leftimage} style={[styles.deleteicon]} />
+        </Animated.View>
       </TouchableOpacity>
     );
   };
 
-  const renderCard = () => {
+  //=============>>>RIGHT SWIPER HANDLER<<<<<<<<<<<<<<<<============
+
+  const rightSwipe = () => {
     return (
-      <Animated.View
-        style={[
-          styles.container,
-          // {
-          //   transform: [
-          //     {
-          //       translateX: anim.interpolate({
-          //         inputRange: [0, 1],
-          //         outputRange: [0, -100],
-          //       }),
-          //     },
-          //   ],
-          // },
-        ]}>
-        <Image style={styles.cardimg} source={props.data.img} />
-        <View style={styles.cardtxt}>
-          <Text>{props.data.head}</Text>
-          <Text>{props.data.title}</Text>
-          <Text>{props.data.price}.</Text>
-          <Text>{props.data.Delivery}.</Text>
-          <TouchableOpacity
-            onPress={() => {
-              console.log('row', ref.current);
-              ref.current.openRight();
-              // anim.addListener(x => {
-              //   console.log('Value of x is', x);
-              // });
-              // animationFunction(anim._value == 1 ? 0 : 1);
-            }}>
-            <Image style={{height: 25, width: 30}} source={images.cross} />
-          </TouchableOpacity>
-        </View>
-      </Animated.View>
+      <View style={[styles.undobox, props.rightSwipeStyle]}>
+        <Image source={rightimg} style={styles.deleteicon} />
+      </View>
     );
   };
 
@@ -88,8 +82,15 @@ const CustomSwapable = (props: any) => {
       <Swipeable
         ref={ref}
         overshootRight={false}
-        renderRightActions={leftSwipe}>
-        {renderCard()}
+        overshootLeft={false}
+        renderRightActions={right ? leftSwipe : () => null}
+        renderLeftActions={left ? rightSwipe : () => null}>
+        <RenderCard
+          ref={ref}
+          data={props.data}
+          indexCard={indexCard}
+          defaultIndex={defaultIndex}
+        />
       </Swipeable>
     </GestureHandlerRootView>
   );
@@ -98,30 +99,21 @@ const CustomSwapable = (props: any) => {
 export default CustomSwapable;
 
 const styles = StyleSheet.create({
-  container: {
-    width: SCREEN_WIDTH,
-    backgroundColor: 'white',
-    padding: normalize(8),
-    flexDirection: 'row',
-  },
   deleteBox: {
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: COLOR.RED,
     width: normalize(100),
     height: normalize(120),
   },
   deleteicon: {
     height: normalize(40),
+    marginTop: normalize(34),
     width: normalize(30),
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
-  cardimg: {
-    height: normalize(80),
-    width: normalize(70),
-    resizeMode: 'contain',
-  },
-  cardtxt: {
-    margin: normalize(5),
-    left: normalize(10),
+  undobox: {
+    backgroundColor: COLOR.lIGHTGREEN,
+    width: normalize(80),
+    height: normalize(120),
   },
 });
