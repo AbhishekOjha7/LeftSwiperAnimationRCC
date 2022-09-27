@@ -27,5 +27,11 @@ Linking:
  * @props (right) is used for handle right swipe
  * @props (rightSwipestyle) is override styling in right side
  * @props (leftSwipestyle) is override styling in left swipe
- *
+ * @props (friction) it is used for delayed compared to the gesture distance
+ * @props (leftThresold) it is used for left edge at which released panel will animate to the open state by default it's a half of the panel width
+ * @props (rightThresold) it is used for right edge at which released panel will animate to the open state by default it's a half of the panel width
+ * @props (overshootright) it is  boolean value  if the swipeable panel can be pulled further than the right actions panel's width. It is set to true by      default as long as the right panel.
+ * @props (onSwipeableOpen) Called when action panel is closed
+ * @props  (onSwipeableWillOpen)  Called when action panel starts animating on close.
+ * @props  (openRight) method that opens component on right side. it takes references
  */
