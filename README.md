@@ -6,7 +6,7 @@ https://user-images.githubusercontent.com/103095958/192455663-0e839c6d-b59e-436e
 Installation: 
 1.ADD 
     npm: install --save react-native-gesture-handler
-    yarn: yarn add react-native-gesture-handler
+    yarn: yarn add react-native-gesture-handler/Swipeable
 
 Linking: 
     For newer React native versions ( >= 0.60 ) 
