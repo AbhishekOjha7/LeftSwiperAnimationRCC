@@ -9,10 +9,16 @@
  * @props (right) is used for handle right swipe
  * @props (rightSwipestyle) is override styling in right side
  * @props (leftSwipestyle) is override styling in left swipe
- *
+ * @props (friction) it is used for delayed compared to the gesture distance
+ * @props (leftThresold) it is used for left edge at which released panel will animate to the open state by default it's a half of the panel width
+ * @props (rightThresold) it is used for right edge at which released panel will animate to the open state by default it's a half of the panel width
+ * @props (overshootright) it is  boolean value  if the swipeable panel can be pulled further than the right actions panel's width. It is set to true by default as long as the right panel.
+ * @props (onSwipeableOpen) Called when action panel is closed
+ * @props  (onSwipeableWillOpen)  Called when action panel starts animating on close.
+ * @props  (openRight) method that opens component on right side. it takes references
  */
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -27,26 +33,47 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {COLOR} from '../utils/colors';
 import {normalize} from '../utils/dimensions';
 import RenderCard from './renderCard';
+
 interface Props {
+  data: any;
+  leftimage?: any;
+  rightimage?: any;
+  handleRight?: any;
+  rightMove?: boolean;
+  leftMove?: boolean;
+  openLeft?: () => void;
+  openRight?: () => void;
   overshootRight?: boolean;
   overshootLeft?: boolean;
-  leftSwipeStyle?: StyleProp<ViewProps>;
-  rightSwipeStyle?: StyleProp<ViewProps>;
-  handleRight?: any;
-  right?: boolean;
-  left?: boolean;
-  leftimage?: any;
-  rightimg?: any;
-  data?: any;
-  ref?: any;
   indexCard?: number | undefined;
   defaultIndex?: number | undefined;
+  friction?: number | undefined;
+  leftThreshold?: number | undefined;
+  rightThreshold?: number | undefined;
+  leftSwipeStyle?: StyleProp<ViewProps>;
+  rightSwipeStyle?: StyleProp<ViewProps>;
+  onSwipeableOpen?: (direction: 'left' | 'right') => void;
+  onSwipeableClose?: (direction: 'left' | 'right') => void;
+  onSwipeableWillOpen?: (direction: 'left' | 'right') => void;
 }
-
 const CustomSwapable = (props: Props) => {
-  const {leftimage, right, left, rightimg, indexCard, defaultIndex} = props;
+  const {
+    leftimage,
+    rightMove,
+    leftMove,
+    rightimage,
+    indexCard,
+    defaultIndex,
+    friction,
+    leftThreshold,
+    rightThreshold,
+    onSwipeableOpen,
+    onSwipeableWillOpen,
+    overshootRight = false,
+    overshootLeft = false,
+    onSwipeableClose,
+  } = props;
   const ref: any = useRef();
-
   //============>>>>>>LEFT SWIPER HANDLER<<<<<<<<<<<===================
   const leftSwipe = (progress: any, dragX: any) => {
     const scale = dragX.interpolate({
@@ -72,19 +99,24 @@ const CustomSwapable = (props: Props) => {
   const rightSwipe = () => {
     return (
       <View style={[styles.undobox, props.rightSwipeStyle]}>
-        <Image source={rightimg} style={styles.deleteicon} />
+        <Image source={rightimage} style={styles.deleteicon} />
       </View>
     );
   };
-
   return (
     <GestureHandlerRootView>
       <Swipeable
         ref={ref}
-        overshootRight={false}
-        overshootLeft={false}
-        renderRightActions={right ? leftSwipe : () => null}
-        renderLeftActions={left ? rightSwipe : () => null}>
+        overshootRight={overshootRight}
+        overshootLeft={overshootLeft}
+        renderRightActions={rightMove ? leftSwipe : () => null}
+        renderLeftActions={leftMove ? rightSwipe : () => null}
+        friction={friction}
+        leftThreshold={leftThreshold}
+        rightThreshold={rightThreshold}
+        onSwipeableOpen={onSwipeableOpen}
+        onSwipeableWillOpen={onSwipeableWillOpen}
+        onSwipeableClose={onSwipeableClose}>
         <RenderCard
           ref={ref}
           data={props.data}

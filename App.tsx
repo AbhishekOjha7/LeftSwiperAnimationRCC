@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, View, StyleSheet, FlatList} from 'react-native';
 import {data} from './src/utils/mockUpdate';
 import CustomSwapable from './src/components/customSwapable';
@@ -29,9 +29,9 @@ const App = () => {
                 deleteItem(index);
               }} //  handle right swipe
               leftimage={images.delete} //    handle left image
-              rightimg={images.question} //     handle right image
-              //left //      left swipeable
-              right //  right swipeable
+              rightimage={images.question} //     handle right image
+              // leftMove //      left swipeable
+              rightMove //  right swipeable
               // leftSwipeStyle={{width: 200, backgroundColor: 'green'}} //styling for left swipe
               // rightSwipeStyle={{width: 180, backgroundColor: 'red'}}    // styling for right swipe
             />
