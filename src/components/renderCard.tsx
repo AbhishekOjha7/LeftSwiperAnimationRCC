@@ -1,4 +1,12 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  StyleProp,
+  ViewProps,
+  ImageSourcePropType,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {images} from '../utils/images';
@@ -7,15 +15,37 @@ import {normalize} from '../utils/dimensions';
 
 interface cardProps {
   data: any;
-  indexCard: number | undefined;
-  defaultIndex: number | undefined;
+  indexCard?: number | undefined;
+  defaultIndex?: number | undefined;
+  CardImgstyle: any;
+  CardtxtStyle?: StyleProp<ViewProps>;
+  txtcolorStyle?: StyleProp<ViewProps>;
+  titleStyle?: StyleProp<ViewProps>;
+  priceStyle?: StyleProp<ViewProps>;
+  pricetxtStyle?: StyleProp<ViewProps>;
+  cutpricetxtStyle?: StyleProp<ViewProps>;
+  deliveryviewStyle?: StyleProp<ViewProps>;
+  deliverytxtStyle?: StyleProp<ViewProps>;
+  crossImage: ImageSourcePropType;
+  crossimgStyle: any;
 }
 
 const RenderCard = React.forwardRef((props: cardProps, ref: any) => {
-  const data = props?.data;
-  const indexCard = props?.indexCard;
-  const defaultIndex = props?.defaultIndex;
-
+  const {
+    CardImgstyle,
+    data,
+    indexCard,
+    defaultIndex,
+    CardtxtStyle,
+    txtcolorStyle,
+    priceStyle,
+    pricetxtStyle,
+    cutpricetxtStyle,
+    deliveryviewStyle,
+    deliverytxtStyle,
+    crossImage,
+    crossimgStyle,
+  } = props;
   useEffect(() => {
     if (defaultIndex == indexCard) {
       setTimeout(() => {
@@ -24,26 +54,30 @@ const RenderCard = React.forwardRef((props: cardProps, ref: any) => {
     }
   }, [ref]);
 
+  const openRight = () => {
+    ref?.current?.openRight();
+  };
   return (
     <View style={styles.rendercontainer}>
-      <Image style={styles.cardimg} source={data.img} />
-      <View style={styles.cardtxt}>
-        <Text style={styles.txtcolor}>{data.head}</Text>
-        <Text style={styles.txtcolor}>{data.title}</Text>
-        <View style={styles.price}>
-          <Text style={styles.pricetxt}>{data.price} </Text>
-          <Text style={styles.cutpricetxt}>{data.cutprice}</Text>
+      <Image style={[styles.cardimg, CardImgstyle]} source={data.img} />
+      <View style={[styles.cardtxt, CardtxtStyle]}>
+        <Text style={[styles.txtcolor, txtcolorStyle]}>{data.head}</Text>
+        <Text style={[styles.txtcolor, txtcolorStyle]}>{data.title}</Text>
+        <View style={[styles.price, priceStyle]}>
+          <Text style={[styles.pricetxt, pricetxtStyle]}>{data.price} </Text>
+          <Text style={[styles.cutpricetxt, cutpricetxtStyle]}>
+            {data.cutprice}
+          </Text>
         </View>
-        <View style={styles.deliveryview}>
-          <Text style={styles.txtcolor}>{data.Delivery}</Text>
-          <Text style={styles.deliverytxt}>{data.Date}</Text>
+        <View style={[styles.deliveryview, deliveryviewStyle]}>
+          <Text style={[styles.txtcolor, txtcolorStyle]}>{data.Delivery}</Text>
+          <Text style={[styles.deliverytxt, deliverytxtStyle]}>
+            {data.Date}
+          </Text>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          ref?.current?.openRight();
-        }}>
-        <Image style={styles.crossimg} source={images.cross} />
+      <TouchableOpacity onPress={openRight}>
+        <Image style={[styles.crossimg, crossimgStyle]} source={crossImage} />
       </TouchableOpacity>
     </View>
   );

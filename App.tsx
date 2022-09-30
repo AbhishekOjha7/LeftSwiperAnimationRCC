@@ -14,7 +14,9 @@ const App = () => {
     arr.splice(index, 1);
     setLists(arr);
   };
-
+  const handleRight = (i: any) => {
+    deleteItem(i);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -25,15 +27,14 @@ const App = () => {
               indexCard={index}
               defaultIndex={item?.isOutOfStock ? index : undefined}
               data={item}
-              handleRight={() => {
-                deleteItem(index);
-              }} //  handle right swipe
+              handleRight={() => handleRight(index)} //  handle right swipe
               leftimage={images.delete} //    handle left image
               rightimage={images.question} //     handle right image
-              // leftMove //      left swipeable
+              leftMove //      left swipeable
               rightMove //  right swipeable
               // leftSwipeStyle={{width: 200, backgroundColor: 'green'}} //styling for left swipe
               // rightSwipeStyle={{width: 180, backgroundColor: 'red'}}    // styling for right swipe
+              // leftThreshold={50}
             />
           );
         }}
@@ -108,3 +109,21 @@ const styles = StyleSheet.create({
     color: COLOR.BLACK,
   },
 });
+// import {View, Text} from 'react-native';
+// import React from 'react';
+// import Biometric from './Biometric';
+
+// const App = () => {
+//   return (
+//     <Biometric
+//       image={undefined}
+//       title={'SIGN'}
+//       imageStyle={{}}
+//       onVerify={() => {}}
+//       cancelButtonText={'CLOSSE'}
+//       allowDeviceCredentials={true}
+//     />
+//   );
+// };
+
+// export default App;

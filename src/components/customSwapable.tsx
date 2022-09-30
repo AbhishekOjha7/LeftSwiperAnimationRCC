@@ -27,17 +27,19 @@ import {
   StyleProp,
   ViewProps,
   Animated,
+  ImageSourcePropType,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {COLOR} from '../utils/colors';
 import {normalize} from '../utils/dimensions';
+import {images} from '../utils/images';
 import RenderCard from './renderCard';
 
 interface Props {
   data: any;
-  leftimage?: any;
-  rightimage?: any;
+  leftimage: ImageSourcePropType;
+  rightimage: ImageSourcePropType;
   handleRight?: any;
   rightMove?: boolean;
   leftMove?: boolean;
@@ -72,6 +74,9 @@ const CustomSwapable = (props: Props) => {
     overshootRight = false,
     overshootLeft = false,
     onSwipeableClose,
+    handleRight,
+    rightSwipeStyle,
+    leftSwipeStyle,
   } = props;
   const ref: any = useRef();
   //============>>>>>>LEFT SWIPER HANDLER<<<<<<<<<<<===================
@@ -81,11 +86,11 @@ const CustomSwapable = (props: Props) => {
       outputRange: [1, 0],
     });
     return (
-      <TouchableOpacity onPress={props.handleRight} activeOpacity={0.6}>
+      <TouchableOpacity onPress={handleRight} activeOpacity={0.6}>
         <Animated.View
           style={[
             styles.deleteBox,
-            props.leftSwipeStyle,
+            leftSwipeStyle,
             {transform: [{scale: scale}]},
           ]}>
           <Image source={leftimage} style={[styles.deleteicon]} />
@@ -98,7 +103,7 @@ const CustomSwapable = (props: Props) => {
 
   const rightSwipe = () => {
     return (
-      <View style={[styles.undobox, props.rightSwipeStyle]}>
+      <View style={[styles.undobox, rightSwipeStyle]}>
         <Image source={rightimage} style={styles.deleteicon} />
       </View>
     );
@@ -122,6 +127,11 @@ const CustomSwapable = (props: Props) => {
           data={props.data}
           indexCard={indexCard}
           defaultIndex={defaultIndex}
+          CardImgstyle={{}}
+          CardtxtStyle={{}}
+          txtcolorStyle={{}}
+          crossImage={images.cross}
+          crossimgStyle={{}}
         />
       </Swipeable>
     </GestureHandlerRootView>

@@ -30,6 +30,6 @@ export const data = [
     Delivery: 'Delivery by ',
     Date: '16 Sep, Friday',
     img: require('../assets/images/shirts_1.png'),
-    isOutOfStock: false,
+    isOutOfStock: true,
   },
 ];
