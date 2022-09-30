@@ -19,9 +19,9 @@ Linking:
 ## SwipeableProps
 | Props             | Type                         | Description                            |
 | ----------------- | ---------------------------- | --------------------------- 
-| leftimage|any|is used for to change left icon|
-| rightimage|any|is used for to change right icon|
-| handleRight|function|is used for to doing crude operation in rightside|
+| leftimage|ImageSourcePropType|is used for to change left icon|
+| rightimage|ImageSourcePropType|is used for to change right icon|
+| handleRight|function|is used for to doing delete  operation in rightside you can do anything on yor own requrement|
 | rightMove|boolean|is used for right Swipeable|
 | leftMove|boolean|is used for left Swipeable|
 | openLeft|function|is used for open animated view left side it takes references useref ref.current.openLeft()|
