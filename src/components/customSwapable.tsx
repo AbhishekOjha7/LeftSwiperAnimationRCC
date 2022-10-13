@@ -93,7 +93,7 @@ const CustomSwapable = (props: Props) => {
             leftSwipeStyle,
             {transform: [{scale: scale}]},
           ]}>
-          <Image source={leftimage} style={[styles.deleteicon]} />
+          <Image source={leftimage} style={styles.deleteicon} />
         </Animated.View>
       </TouchableOpacity>
     );
@@ -127,11 +127,7 @@ const CustomSwapable = (props: Props) => {
           data={props.data}
           indexCard={indexCard}
           defaultIndex={defaultIndex}
-          CardImgstyle={{}}
-          CardtxtStyle={{}}
-          txtcolorStyle={{}}
           crossImage={images.cross}
-          crossimgStyle={{}}
         />
       </Swipeable>
     </GestureHandlerRootView>

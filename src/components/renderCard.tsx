@@ -6,10 +6,10 @@ import {
   StyleProp,
   ViewProps,
   ImageSourcePropType,
+  ImageStyle,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {images} from '../utils/images';
 import {COLOR} from '../utils/colors';
 import {normalize} from '../utils/dimensions';
 
@@ -17,7 +17,7 @@ interface cardProps {
   data: any;
   indexCard?: number | undefined;
   defaultIndex?: number | undefined;
-  CardImgstyle: any;
+  CardImgstyle?: StyleProp<ImageStyle>;
   CardtxtStyle?: StyleProp<ViewProps>;
   txtcolorStyle?: StyleProp<ViewProps>;
   titleStyle?: StyleProp<ViewProps>;
@@ -27,7 +27,7 @@ interface cardProps {
   deliveryviewStyle?: StyleProp<ViewProps>;
   deliverytxtStyle?: StyleProp<ViewProps>;
   crossImage: ImageSourcePropType;
-  crossimgStyle: any;
+  crossimgStyle?: StyleProp<ImageStyle>;
 }
 
 const RenderCard = React.forwardRef((props: cardProps, ref: any) => {
